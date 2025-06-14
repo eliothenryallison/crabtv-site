@@ -136,5 +136,50 @@
     });
   </script>
 
+<!-- Install banner -->
+<div id="install-banner" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  padding: 16px;
+  font-size: 11px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  border: 1px solid #faff00;
+  z-index: 1000;
+  box-shadow: 0 0 12px #faff00, 0 0 20px #fff000;
+  border-radius: 6px;
+  display: none;
+">
+  INSTALL <strong>CRABTV</strong>: TAP <u>SHARE</u> AND THEN <u>“ADD TO HOME SCREEN”</u>
+  <span id="close-banner" style="
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    background: #111;
+    border: 1px solid white;
+    color: white;
+    padding: 0 6px;
+    font-size: 10px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    box-shadow: 1px 1px white;
+    line-height: 1.4;
+  ">X</span>
+</div>
+
+<script>
+  if (/iPhone|Android/i.test(navigator.userAgent)) {
+    document.getElementById("install-banner").style.display = "block";
+  }
+
+  document.getElementById("close-banner").onclick = function() {
+    document.getElementById("install-banner").style.display = "none";
+  };
+</script>
+
 </body>
 </html>
