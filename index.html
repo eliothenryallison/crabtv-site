@@ -97,12 +97,12 @@
   <script>
     const wavesurfer1 = WaveSurfer.create({
       container: '#waveform1',
-      waveColor: 'black',
+      waveColor: 'white',
       progressColor: 'black',
       backgroundColor: 'transparent',
-      barWidth: 3,
-      barGap: null,
-      height: 60,
+      barWidth: 1,
+      barGap: 2,
+      height: 100,
       responsive: true,
       interact: false,
     });
@@ -110,9 +110,9 @@
     wavesurfer1.load('audio_2025_03_22_00_01_30.m4a');
 
     const markers1 = [
-      { time: 5, label: 'Intro' },
-      { time: 15, label: 'Verse' },
-      { time: 30, label: 'Drop' }
+      { time: 5, label: '1' },
+      { time: 15, label: '2' },
+      { time: 30, label: '3' }
     ];
 
     wavesurfer1.on('ready', () => {
