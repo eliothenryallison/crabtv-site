@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crabtv</title>
+  <script src="https://unpkg.com/wavesurfer.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Press Start 2P', monospace;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .site-title {
+      text-align: center;
+      font-size: 24px;
+      color: white;
+      margin: 30px 0 20px;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+    }
+
+    .track-container {
+      max-width: 600px;
+      margin: 60px auto;
+      position: relative;
+    }
+
+    .track-title {
+      text-align: center;
+      font-size: 10px;
+      color: yellow;
+      text-shadow: 0 0 5px yellow, 0 0 10px orange;
+      margin-bottom: 10px;
+    }
+
+    .waveform {
+      height: 60px;
+    }
+
+    .markers {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      pointer-events: none;
+    }
+
+    .marker {
+      position: absolute;
+      top: -20px;
+      font-size: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2px 5px;
+      border-radius: 4px;
+      transform: translateX(-50%);
+      pointer-events: auto;
+      cursor: pointer;
+      white-space: nowrap;
+      color: white;
+      text-shadow: 0 0 3px yellow;
+    }
+
+    .marker[contenteditable="true"] {
+      outline: 1px dashed yellow;
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="videos/background.mov" type="video/mp4">
+  </video>
+
+  <h1 class="site-title">crabtv</h1>
+
+  <div class="track-container">
+    <div class="track-title">audio_2025_03_22_00_01_30.m4a</div>
+    <div class="waveform" id="waveform1"></div>
+    <div class="markers" id="markers1"></div>
+  </div>
+
+  <script>
+    const wavesurfer1 = WaveSurfer.create({
+      container: '#waveform1',
+      waveColor: 'black',
+      progressColor: 'black',
+      backgroundColor: 'transparent',
+      barWidth: 3,
+      barGap: null,
+      height: 60,
+      responsive: true,
+      interact: false,
+    });
+
+    wavesurfer1.load('audio_2025_03_22_00_01_30.m4a');
+
+    const markers1 = [
+      { time: 5, label: 'Intro' },
+      { time: 15, label: 'Verse' },
+      { time: 30, label: 'Drop' }
+    ];
+
+    wavesurfer1.on('ready', () => {
+      const duration = wavesurfer1.getDuration();
+      const container = document.getElementById('markers1');
+
+      markers1.forEach(marker => {
+        const percent = (marker.time / duration) * 100;
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.contentEditable = true;
+        el.innerText = marker.label;
+        el.style.left = percent + '%';
+        el.title = 'Click to edit';
+        el.addEventListener('click', () => {
+          wavesurfer1.seekTo(marker.time / duration);
+          wavesurfer1.play();
+        });
+        container.appendChild(el);
+      });
+    });
+  </script>
+
+</body>
+</html>
